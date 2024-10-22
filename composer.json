@@ -1,5 +1,5 @@
 {
-  "name": "takuya/php-prco_open-wrapper",
+  "name": "takuya/php-proc_open-wrapper",
   "description": "proc_open wrapper to exec command.",
   "type": "library",
   "version": "0.1",
