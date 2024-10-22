@@ -37,7 +37,7 @@ jobs:
         run: |
           php -v
           composer require takuya/php-proc_open-wrapper
-          cat <<EOS > sample.php
+          cat <<'EOS' > sample.php
           <?php
           require_once 'vendor/autoload.php';
           use Takuya\ProcOpen\ProcOpen;
@@ -48,5 +48,6 @@ jobs:
           
           echo $output = stream_get_contents($p->getFd(1));
           EOS
+          cat sample.php
           php sample.php
       
