@@ -1,0 +1,33 @@
+{
+  "name": "takuya/php-prco_open-wrapper",
+  "type": "library",
+  "version": "0.1",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "php": ">=8.0",
+    "ext-pcntl": "*",
+    "ext-sysvshm": "*",
+    "ext-posix": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Takuya\\": "src/",
+      "Takuya\\ProcOpen\\": "src/ProcOpen"
+    }
+  },
+  "authors": [
+    {
+      "name": "takuya",
+      "email": "55338+takuya@users.noreply.github.com"
+    }
+  ],
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5",
+    "larapack/dd": "^1.1"
+  }
+}
