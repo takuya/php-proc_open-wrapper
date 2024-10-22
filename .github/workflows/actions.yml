@@ -29,3 +29,24 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: update tested date.
+  run-composer-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name:  installation
+        shell: bash
+        run: |
+          php -v
+          composer require takuya/php-proc_open-wrapper
+          cat <<EOS > sample.php
+          <?php
+          require_once 'vendor/autoload.php';
+          use Takuya\ProcOpen\ProcOpen;
+          
+          $p = new ProcOpen( ['php','-v'] );
+          $p->start();
+          $p->wait();
+          
+          echo $output = stream_get_contents($p->getFd(1));
+          EOS
+          php sample.php
+      
