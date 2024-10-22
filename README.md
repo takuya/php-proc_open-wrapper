@@ -35,7 +35,7 @@ See [Examples](https://github.com/takuya/php-proc_open-wrapper/tree/master/examp
 
 ## safer process call
 
-This package directory exec command, not using 'shell'.
+This package directly exec command, not using 'shell'.
 
 proc_open executes command directly, without shell ( fork then exec ).
 
