@@ -8,9 +8,17 @@ Run process and run string by interpreter(ex.python,bash). and keep process long
 
 ## Installing
 
-
+from packagist. 
 ```
-
+composer require takuya/php-prco_open-wrapper
+```
+from GitHub repos.
+```sh
+name='php-prco_open-wrapper'
+composer config repositories.$name \
+vcs https://github.com/takuya/$name  
+composer require takuya/$name:master
+composer install
 ```
 ## Test
 
