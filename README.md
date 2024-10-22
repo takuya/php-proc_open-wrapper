@@ -14,7 +14,8 @@ Run process and run string by interpreter(ex.python,bash). and keep process long
 ```
 ## Test
 
-phpunit でテストする。
+phpunit 
+
 ```shell
 composer install 
 vendor/bin/phpunit 
