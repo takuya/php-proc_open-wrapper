@@ -20,6 +20,24 @@ vcs https://github.com/takuya/$name
 composer require takuya/$name:master
 composer install
 ```
+
+check installation.
+
+sample.php
+```php
+<?php
+require_once 'vendor/autoload.php';
+use Takuya\ProcOpen\ProcOpen;
+
+$p = new ProcOpen( ['php','-v'] );
+$p->start();
+$p->wait();
+
+echo $output = stream_get_contents($p->getFd(1));
+```
+```shell
+php sample.php
+```
 ## Test
 
 phpunit 
