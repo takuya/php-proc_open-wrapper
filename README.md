@@ -31,13 +31,27 @@ use Takuya\ProcOpen\ProcOpen;
 
 $p = new ProcOpen( ['php','-v'] );
 $p->start();
-$p->wait();
 
 echo $output = stream_get_contents($p->getFd(1));
 ```
+run.
 ```shell
 php sample.php
 ```
+
+wait long time process.
+
+```php
+<?php
+<?php
+require_once 'vendor/autoload.php';
+use Takuya\ProcOpen\ProcOpen;
+
+$p = new ProcOpen( ['php','-v'] );
+$p->start();
+$p->wait();
+```
+
 ## Test
 
 phpunit 
