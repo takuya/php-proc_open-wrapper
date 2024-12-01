@@ -206,8 +206,16 @@ $proc->start();
 // this will be blocked.
 
 ```
+To avoid BUFF stuck use blockingIO instead of wait.
+```php
+<?php
+$popen = new ProcOpen(['php','-i'],null,$env);
+$popen->start();
+// instead of wait() use blockingIO.
+return stream_get_contents($popen->stdout());
+```
 
-To avoid blocking, you should use tmp-io.
+or, To avoid blocking, you can use tmp-io.
 
 ```php
 <?php
