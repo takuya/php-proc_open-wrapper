@@ -47,7 +47,7 @@ wait long time process.
 require_once 'vendor/autoload.php';
 use Takuya\ProcOpen\ProcOpen;
 
-$p = new ProcOpen( ['php','-v'] );
+$p = new ProcOpen( ['sleep','30'] );
 $p->start();
 $p->wait();
 ```
