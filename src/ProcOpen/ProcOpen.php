@@ -4,15 +4,15 @@ namespace Takuya\ProcOpen;
 
 use Takuya\ProcOpen\Traits\Suspend;
 use Takuya\ProcOpen\Exceptions\FailedOpenProcessException;
-use Takuya\ProcOpen\Traits\StreamChecker;
-use Takuya\ProcOpen\Traits\CmdCheck;
+use Takuya\ProcOpen\Traits\CheckStreamType;
+use Takuya\ProcOpen\Traits\CheckCmd;
 use Takuya\ProcOpen\Traits\PseudoStream;
 use Takuya\ProcOpen\Traits\SyntaxSugar;
 
 class ProcOpen {
-  use StreamChecker;
+  use CheckStreamType;
   use Suspend;
-  use CmdCheck;
+  use CheckCmd;
   use PseudoStream;
   use SyntaxSugar;
   
@@ -43,7 +43,7 @@ class ProcOpen {
   
   public function setInput ( $var ) {
     if ( is_resource( $var ) ) {
-      $this->checkStream( $var );
+      $this->checkStreamType($var );
     } else if ( is_string( $var ) && strlen( $var ) < 100*2 ) {
       // for tiny input, avoid to use  '/tmp' ( avoiding Disk IO cost ).
       $pseudo_pipe = $this->pseudo_pipe();
@@ -58,12 +58,12 @@ class ProcOpen {
   }
   
   public function setStderr ( $res ) {
-    $this->checkStream( $res );
+    $this->checkStreamType($res );
     $this->fds[self::STDERR] = $res;
   }
   
   public function setStdout ( $res ) {
-    $this->checkStream( $res );
+    $this->checkStreamType($res );
     $this->fds[self::STDOUT] = $res;
   }
   

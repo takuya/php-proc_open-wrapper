@@ -2,7 +2,7 @@
 
 namespace Takuya\ProcOpen\Traits;
 
-trait CmdCheck {
+trait CheckCmd {
   protected function checkCmd($cmd): void {
     if ( !is_array( $cmd ) ) {
       trigger_error( '$cmd: string is risky, `array` is more safe.', E_USER_WARNING );

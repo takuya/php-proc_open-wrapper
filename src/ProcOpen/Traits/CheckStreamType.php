@@ -4,8 +4,8 @@ namespace Takuya\ProcOpen\Traits;
 
 use Takuya\ProcOpen\Exceptions\InvalidStreamException;
 
-trait StreamChecker {
-  protected function checkStream ( $st ) {
+trait CheckStreamType {
+  protected function checkStreamType ( $st ) {
     // php://memory だと proc_openは動かない
     // php://temp に限る。
     // https://www.php.net/manual/en/wrappers.php.php#:~:text=One%20difference%20between%20the%20two,as%20the%20sys_get_temp_dir()%20function.
