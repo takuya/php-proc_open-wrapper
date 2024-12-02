@@ -91,8 +91,11 @@ class ProcOpen {
   }
   
   public function wait ( callable $callback = null ) {
+    if( !is_callable($callback) && $this->io_buffering_enabled){
+      $callback = $this->buff_stream();
+    }
     while ( $this->info->running ) {
-      if ( is_callable( $callback ) ) call_user_func( $callback );
+      is_callable( $callback ) && call_user_func( $callback );
       usleep( 1000 );
     }
   }

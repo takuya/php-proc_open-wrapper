@@ -5,12 +5,13 @@ namespace Takuya\ProcOpen\Traits;
 trait BufferedOutput {
   
   protected array $buff;
+  protected bool $io_buffering_enabled=false;
   
-  public function wait_and_buffering() {
-    $this->wait($this->buff_stream());
+  public function enableBuffering(){
+    $this->io_buffering_enabled=true;
   }
   
-  public function buff_stream( $streams = [], $interval = 100 ):\Closure {
+  protected function buff_stream( $streams = [], $interval = 100 ):\Closure {
     return function () use ( $streams, $interval ) {
       if( empty($streams) ) {
         $streams = $this->fds;

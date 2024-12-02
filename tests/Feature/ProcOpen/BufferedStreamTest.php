@@ -21,7 +21,8 @@ class BufferedStreamTest extends TestCase {
       }
       EOS);
     $proc->start();
-    $proc->wait_and_buffering();
+    $proc->enableBuffering();
+    $proc->wait();
     $this->assertEquals(1024*64+1,strlen($proc->getOutput()));
     $this->assertEquals(1024*64+1,strlen($proc->getErrout()));
     
