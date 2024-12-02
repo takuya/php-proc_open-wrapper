@@ -271,7 +271,7 @@ if ( $avail > 0 ) {
 
 ```php
 $popen = new ProcOpen(['php','-i'],null,$env);
-// not memory , proc cast IO it to /tmp/phpXXXX .
+// This is not memory , proc cast IO it to /tmp/phpXXXX .
 $popen->setOutput($out=fopen('php://temp/maxmemory:'.(1024*1024*10)));
 $popen->start();
 $popen->wait();
