@@ -7,6 +7,7 @@ use ReflectionClass;
 use Takuya\ProcOpen\ProcOpen;
 use Takuya\ProcOpen\Exceptions\InvalidStreamException;
 use Takuya\ProcOpen\Exceptions\FailedOpenProcessException;
+use Takuya\ProcOpen\Exceptions\ResourceIsMemoryException;
 
 class ProcOpenExceptionTest extends TestCase {
   public function test_proc_open_invalid_cmd_as_string () {
@@ -30,13 +31,13 @@ class ProcOpenExceptionTest extends TestCase {
   }
   
   public function test_proc_open_stdin_invalid_arguments () {
-    $this->expectException( InvalidStreamException::class );
+    $this->expectException( ResourceIsMemoryException::class );
     $p = new ProcOpen( ['/usr/bin/php', '-i'] );
     $p->setInput( fopen( "php://memory", 'rw+' ) );
   }
   
   public function test_proc_open_stdout_invalid_arguments () {
-    $this->expectException( InvalidStreamException::class );
+    $this->expectException( ResourceIsMemoryException::class );
     $p = new ProcOpen( ['/usr/bin/php', '-i'] );
     $p->setStdout( fopen( "php://memory", 'rw+' ) );
   }
@@ -48,7 +49,7 @@ class ProcOpenExceptionTest extends TestCase {
   }
   
   public function test_proc_open_stderr_invalid_arguments () {
-    $this->expectException( InvalidStreamException::class );
+    $this->expectException( ResourceIsMemoryException::class );
     $p = new ProcOpen( ['/usr/bin/php', '-i'] );
     $p->setStderr( fopen( "php://memory", 'rw+' ) );
   }

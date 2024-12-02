@@ -278,4 +278,15 @@ $popen->wait();
 // in case Ctrl-C  this will remain temp_file in /tmp 
 echo $popen->getOutput();//
 ```
+To use fopen wrapppers , flag prop before start
+```php
+$popen = new ProcOpen(['php','-i'],null,$env);
+$popen->enableBuffering()
+// after add Flag , memory can be used.
+$popen->setOutput(fopen('php://memory','w+'));
+$popen->start();
+$popen->wait();
+echo $popen->getOutput();// no blocking, no error.
+```
+
 

@@ -9,6 +9,7 @@ use Takuya\ProcOpen\Traits\CheckStreamType;
 use Takuya\ProcOpen\Traits\CheckCmd;
 use Takuya\ProcOpen\Traits\PseudoStream;
 use Takuya\ProcOpen\Traits\SyntaxSugar;
+use Takuya\ProcOpen\Exceptions\ResourceIsMemoryException;
 
 class ProcOpen {
   use CheckStreamType;
@@ -60,14 +61,28 @@ class ProcOpen {
   }
   
   public function setStderr ( $res ) {
-    $this->checkStreamType($res );
-    $this->fds[self::STDERR] = $res;
+    try {
+      $this->checkStreamType( $res );
+      $this->fds[self::STDERR] = $res;
+    } catch (ResourceIsMemoryException $e) {
+      if ( !$this->io_buffering_enabled ) {
+        throw $e;
+      }
+      $this->buff[self::STDERR] = $this->buff[self::STDERR] ?? $res;
+    }
   }
   
   public function setStdout ( $res ) {
-    $this->checkStreamType($res );
-    $this->fds[self::STDOUT] = $res;
-  }
+    try {
+      $this->checkStreamType( $res );
+      $this->fds[self::STDOUT] = $res;
+    } catch (ResourceIsMemoryException $e) {
+      if ( !$this->io_buffering_enabled ) {
+        throw $e;
+      }
+      $this->buff[self::STDOUT] = $this->buff[self::STDOUT] ?? $res;
+    }
+ }
   
   public function getFd ( $idx ) {
     return $this->buff[$idx]?? $this->fds[$idx];

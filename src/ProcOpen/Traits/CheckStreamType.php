@@ -3,6 +3,7 @@
 namespace Takuya\ProcOpen\Traits;
 
 use Takuya\ProcOpen\Exceptions\InvalidStreamException;
+use Takuya\ProcOpen\Exceptions\ResourceIsMemoryException;
 
 trait CheckStreamType {
   protected function checkStreamType ( $st ) {
@@ -16,7 +17,7 @@ trait CheckStreamType {
     }
     $meta = stream_get_meta_data( $st );
     if ( !empty( $meta['wrapper_type'] ) && $meta['wrapper_type'] == 'PHP' && $meta["stream_type"] == 'MEMORY' ) {
-      throw new InvalidStreamException( "type error: 'php://memory' cannot be used in proc_open" );
+      throw new ResourceIsMemoryException( "type error: 'php://memory' cannot be used in proc_open" );
     }
   }
   

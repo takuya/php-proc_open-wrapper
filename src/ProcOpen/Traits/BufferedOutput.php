@@ -10,7 +10,6 @@ trait BufferedOutput {
   public function enableBuffering(){
     $this->io_buffering_enabled=true;
   }
-  
   protected function buff_stream( $streams = [], $interval = 100 ):\Closure {
     return function () use ( $streams, $interval ) {
       if( empty($streams) ) {
@@ -18,7 +17,7 @@ trait BufferedOutput {
         unset($streams[0]);
       }
       $streams = array_filter($streams, fn( $st ) => stream_get_meta_data($st)["stream_type"] == 'STDIO');
-      $this->buff = array_map(fn( $e ) => $this->temp_io(), $streams);
+      array_map(fn($idx)=>$this->buff[$idx] = $this->buff[$idx] ?? $this->temp_io(), array_keys($streams));
       while( ! empty(array_filter($streams, fn( $s ) => ! feof($s)))) {
         [$r, $w, $e] = [$streams, [], []];
         stream_select($r, $w, $e, 0, $interval);
