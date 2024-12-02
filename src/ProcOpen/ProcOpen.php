@@ -45,8 +45,9 @@ class ProcOpen {
   public function setInput ( $var ) {
     if ( is_resource( $var ) ) {
       $this->checkStreamType($var );
-    } else if ( is_string( $var ) && strlen( $var ) < 100*2 ) {
+    } else if ( is_string( $var ) && strlen( $var ) <= 1024*160 ) {
       // for tiny input, avoid to use  '/tmp' ( avoiding Disk IO cost ).
+      // linux max size is 1024*160.
       $pseudo_pipe = $this->pseudo_pipe();
       fwrite( $pseudo_pipe['w'], $var );
       fclose( $pseudo_pipe['w'] );
