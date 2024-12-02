@@ -12,10 +12,10 @@ class BufferedStreamTest extends TestCase {
     $proc->setInput(
       <<<'EOS'
       <?php
-      define('LINUX_PIPE_SIZE_MAX',1024*64+1);
+      define('LINUX_PIPE_SIZE_MAX',1024*64);
       $err = fopen('php://stderr','w');
       $out = fopen('php://stdout','w');
-      foreach(range(1,LINUX_PIPE_SIZE_MAX) as $i){
+      foreach(range(1,LINUX_PIPE_SIZE_MAX+1) as $i){
         fwrite($err,'e');
         fwrite($out,'a');
       }
