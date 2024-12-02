@@ -46,9 +46,10 @@ class ProcOpen {
   public function setInput ( $var ) {
     if ( is_resource( $var ) ) {
       $this->checkStreamType($var );
-    } else if ( is_string( $var ) && strlen( $var ) <= 1024*160 ) {
-      // for tiny input, avoid to use  '/tmp' ( avoiding Disk IO cost ).
+    } else if ( $this->can_use_pseudo_pipe($var)) {
+      // for tiny input, avoid 'php://temp' ( avoiding Disk IO cost ).
       // linux max size is 1024*160.
+      // macOS max size is 1024*8.
       $pseudo_pipe = $this->pseudo_pipe();
       fwrite( $pseudo_pipe['w'], $var );
       fclose( $pseudo_pipe['w'] );
