@@ -12,5 +12,11 @@ trait SyntaxSugar {
   public function stdin () {
     return $this->getFd( self::STDIN );
   }
+  public function getOutput(){
+    return stream_get_contents($this->stdout());
+  }
+  public function getErrout(){
+    return stream_get_contents($this->stderr());
+  }
   
 }

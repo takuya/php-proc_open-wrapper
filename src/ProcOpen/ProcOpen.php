@@ -3,6 +3,7 @@
 namespace Takuya\ProcOpen;
 
 use Takuya\ProcOpen\Traits\Suspend;
+use Takuya\ProcOpen\Traits\BufferedOutput;
 use Takuya\ProcOpen\Exceptions\FailedOpenProcessException;
 use Takuya\ProcOpen\Traits\CheckStreamType;
 use Takuya\ProcOpen\Traits\CheckCmd;
@@ -15,12 +16,12 @@ class ProcOpen {
   use CheckCmd;
   use PseudoStream;
   use SyntaxSugar;
+  use BufferedOutput;
   
   public const STDIN = 0;
   public const STDOUT = 1;
   public const STDERR = 2;
-  /** @var ProcInfo */
-  public $info;
+  public ProcInfo $info;
   protected array $fds = [
     // Linux の PIPE_BUF / PIPE_SIZEに影響を受けるので注意。
     // 読み込まずに放置すると詰まるのである。
@@ -68,7 +69,7 @@ class ProcOpen {
   }
   
   public function getFd ( $idx ) {
-    return $this->fds[$idx];
+    return $this->buff[$idx]?? $this->fds[$idx];
   }
   
   

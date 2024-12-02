@@ -20,5 +20,8 @@ trait PseudoStream {
     rewind( $sio );
     return $sio;
   }
+  protected function temp_io($mega_bytes=10,$mode='w+'){
+    return fopen('php://temp/maxmemory:'.(1024*1024*$mega_bytes),$mode);
+  }
   
 }
