@@ -31,7 +31,7 @@ use Takuya\ProcOpen\ProcOpen;
 
 $p = new ProcOpen( ['php','-v'] );
 $p->start();
-//stream_get_contents is enough to wait process end, because blocked. 
+// This is enough to wait process end, because blocked. 
 echo $output = stream_get_contents($p->getFd(1));
 ```
 run.
