@@ -7,7 +7,7 @@ trait BufferedOutput {
   protected array $buff;
   protected bool $io_buffering_enabled=false;
   
-  public function enableBuffering(){
+  public function enableBuffering(): void {
     $this->io_buffering_enabled=true;
   }
   protected function buff_stream( $streams = [], $interval = 100 ):\Closure {
