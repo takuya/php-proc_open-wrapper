@@ -2,7 +2,7 @@
   "name": "takuya/php-proc_open-wrapper",
   "description": "proc_open wrapper to exec command.",
   "type": "library",
-  "version": "0.3",
+  "version": "0.4",
   "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=8.0"
