@@ -18,5 +18,9 @@ trait SyntaxSugar {
   public function getErrout(){
     return stream_get_contents($this->stderr());
   }
+  public function run($callback=null){
+    $this->start();
+    $this->wait($callback);
+  }
   
 }
