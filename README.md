@@ -200,7 +200,7 @@ $output= stream_get_contents($proc->getFd(1));
 ```
 ## Linux pipe max.
 
-Linux pipe will be Stuck if left unread, then the process will be sleep.
+Linux pipe will be Stuck(blocked) if left unread.
 
 `LINUX_PIPE_SIZE` is `1024*64`.
 so if you try to write one more byte (`1024*64+1`bytes) to `stdout`, process will be blocked by OS.
