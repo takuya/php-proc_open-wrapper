@@ -266,7 +266,7 @@ if ( $avail > 0 ) {
 }
 ```
 
-'php://temp' may be looks good, but that is not good. 'php//:temp' will be cast to file.
+'php://temp' may be looks good, but that is not all good. It will be cast to TEMP FILE.
 
 ```php
 $popen = new ProcOpen(['php','-i'],null,$env);
