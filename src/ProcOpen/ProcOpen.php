@@ -54,7 +54,10 @@ class ProcOpen {
       fwrite( $pseudo_pipe['w'], $var );
       fclose( $pseudo_pipe['w'] );
       $var = $pseudo_pipe['r'];
-    } else {
+    } else if($this->io_buffering_enabled){
+      $this->buff[self::STDIN] = $this->string_io($var);
+      $var = null;
+    }else {
       $var = $this->string_io( $var );
     }
     //
@@ -88,9 +91,7 @@ class ProcOpen {
   public function getFd ( $idx ) {
     return $this->buff[$idx]?? $this->fds[$idx];
   }
-  
-  
-  public function start () {
+  protected function openProcPipes(){
     $pipes = [];
     $fds = [
       self::STDIN  => $this->fds[self::STDIN] ?? ['pipe', 'r'],
@@ -101,13 +102,24 @@ class ProcOpen {
     if ( !is_resource( $proc_res ) ) {
       throw new FailedOpenProcessException( 'proc_open Failed.' );
     }
+  
     $this->fds[self::STDIN] = $this->fds[self::STDIN] ?? $pipes[self::STDIN];
     $this->fds[self::STDOUT] = $pipes[self::STDOUT] ?? $this->fds[self::STDOUT];
     $this->fds[self::STDERR] = $pipes[self::STDERR] ?? $this->fds[self::STDERR];
     $this->info->setProcResource( $proc_res );
   }
   
+  
+  public function start () {
+    $this->openProcPipes();
+  }
+  
   public function wait ( callable $callback = null ) {
+  
+    if ($this->io_buffering_enabled && !empty($this->buff[self::STDIN]) && is_resource($this->buff[self::STDIN])  && is_resource($this->fds[self::STDIN]) && !feof($this->fds[self::STDIN])){
+      stream_copy_to_stream($this->buff[self::STDIN],$this->fds[self::STDIN]);
+      fclose($this->fds[self::STDIN]);
+    }
     if( !is_callable($callback) && $this->io_buffering_enabled){
       $callback = $this->buff_stream();
     }

@@ -26,7 +26,7 @@ trait PseudoStream {
   }
   
   protected function string_io ( $str ) {
-    $sio = fopen( 'php://temp', 'rw' );
+    $sio = $this->temp_io(intval(ceil(strlen($str)/1024/1024)),'w+');
     fwrite( $sio, $str );
     rewind( $sio );
     return $sio;

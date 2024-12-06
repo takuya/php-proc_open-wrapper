@@ -31,7 +31,7 @@ trait BufferedOutput {
       while($this->info->running) {
         usleep(100);
       }
-      array_map(fn( $s ) => rewind($s), $this->buff);
+      array_map(fn( $s ) => rewind($s), array_intersect_key($this->buff,$streams));
       
       return $this->buff;
     };
