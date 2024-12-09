@@ -51,6 +51,125 @@ $p->start();
 $p->wait();
 ```
 
+## comparison proc_open , ProcOpen
+
+- process (no input)
+- process (with stdin,stderr,stdout )
+- process (read output)
+- process (pipe line)
+
+### simple (no input, no stdout)
+proc_open
+```php
+<?php
+$proc = proc_open('rm -rf /tmp/ABcDE',[1=>['pipe','w'],2=>['pipe','w']],$io);
+
+while( ($pstat = proc_get_status($proc))&& $pstat['running'] ){
+  usleep(100);
+}
+
+```
+ProcOpen Wrapper(this package)
+```php
+<?php
+require_once 'vendor/autoload.php';
+use Takuya\ProcOpen\ProcOpen;
+//
+$p = new ProcOpen('rm -rf /tmp/ABcDE');
+$p->start();
+$p->wait();
+```
+### simple ( with stdin,stderr,stdout )
+proc_open
+```php
+<?php
+
+$proc = proc_open('grep root',[0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$io);
+// pass stdin
+stream_copy_to_stream(fopen('/etc/passwd','r'),$io[0]);
+fclose($io[0]);
+// get stderr , stdout
+file_put_contents('php://stderr',stream_get_contents($io[2]));
+echo stream_get_contents($io[1]);
+```
+ProcOpen Wrapper (this package)
+```php
+<?php
+use Takuya\ProcOpen\ProcOpen;
+
+$proc = new ProcOpen(['grep','root']);
+$proc->setInput(fopen('/etc/passwd','r'));
+$proc->start();
+file_put_contents('php://stderr',$proc->getErrout());
+echo $proc->getOutput();
+
+```
+### simple ( read output )
+Open php Interactive Shell (`php -a`) and write and read out
+```shell
+takuya@host :$ php -a
+Interactive shell
+
+php > echo 0;
+0
+php > echo 1;
+1
+php > echo 2;
+2
+```
+`proc_open` : Do as above in. 
+```php
+<?php
+$proc = proc_open(['php','-a'], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $io);
+foreach (range(0, 9) as $str) {
+  echo fread($io[1],1024);
+  fwrite($io[0],"echo {$str};\n");
+}
+fclose($io[0]);
+echo stream_get_contents($io[1]);
+```
+`ProcOpen` Wrapper
+```php
+<?php
+$proc = new ProcOpen(['php','-a']);
+$proc->start();
+foreach (range(0, 9) as $str) {
+  echo fread($proc->stdout(),1024);
+  fwrite($proc->stdin(),"echo {$str};\n");
+}
+fclose($proc->stdin());
+echo $proc->getOutput();
+```
+
+### sample pipe(  String and Shell ) 
+`proc_open` is accept `string $cmd` but not safe. 
+```php
+<?php
+# shell calling, Not Safe.
+$proc = proc_open('cat /etc/passwd | grep root',[1=>['pipe','w']],$io);
+echo stream_get_contents($io[1]);
+# pipe io , More Safe.
+$p1 = proc_open('cat /etc/passwd',[1=>['pipe','w']],$p1_io);
+$p2 = proc_open('cat /etc/passwd | grep root',[0=>$p1_io[1],1=>['pipe','w']],$p2_io);
+echo stream_get_contents($p2_io[1]);
+```
+`ProcOpen` wrapper, shell call and pipe io
+````php
+<?php
+## shell calling, explicitly use SHELL.
+$p = new ProcOpen(['bash']);
+$p->setInput('cat /etc/passwd | grep root');
+$p->start();
+echo $p->getOutput();
+## pipe io , more safe and easy to maintenance.
+$p1 = new ProcOpen(['cat','/etc/passwd']);
+$p2 = new ProcOpen(['grep','root']);
+$p1->start();
+$p2->setInput($p1->stdout());
+$p2->start();
+echo $p2->getOutput();
+````
+
 ## Test
 
 phpunit 
