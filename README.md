@@ -157,13 +157,13 @@ echo stream_get_contents($p2_io[1]);
 `ProcOpen` wrapper, shell call and pipe io
 ````php
 <?php
-## shell calling, explicitly use SHELL.
+// shell calling, explicitly use SHELL.
 $p = new ProcOpen(['bash']);
 $p->setInput('cat /etc/passwd | grep root');
 $p->start();
 echo $p->getOutput();
 
-## pipe io , more safe and easy to maintenance.
+// pipe io , more safe and easy to maintenance.
 $p1 = new ProcOpen(['cat','/etc/passwd']);
 $p2 = new ProcOpen(['grep','root']);
 $p1->start();
