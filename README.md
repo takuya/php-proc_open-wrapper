@@ -297,7 +297,7 @@ print(sys.path)
 $proc->start();
 $proc->wait();
 //blocking io
-echo fread($proc->getFd(ProcOpen::STDOUT), 1024);
+echo stream_get_contents($proc->getFd(ProcOpen::STDOUT);
 ```
 
 ## Run php interactive shell `php -a `
