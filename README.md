@@ -332,9 +332,9 @@ echo stream_get_contents($proc->stdout);
 ProcOpen has  shortcut by function
 ```php
 <?php
-// short cut function.
+// a shortcut function.
 $proc->getOutput();
-// same to this.
+// Same to this.
 stream_get_contents($proc->stdout)
 ```
 
