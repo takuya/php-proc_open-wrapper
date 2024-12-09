@@ -10,7 +10,7 @@ trait BufferedOutput {
   public function enableBuffering(): void {
     $this->io_buffering_enabled=true;
   }
-  protected function buff_stream( $streams = [], $interval = 100 ):\Closure {
+  protected function buff_stream( $streams = [], $interval = 20*1000 ):\Closure {
     return function () use ( $streams, $interval ) {
       if( empty($streams) ) {
         $streams = $this->fds;
