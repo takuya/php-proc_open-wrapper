@@ -51,7 +51,7 @@ $p->start();
 $p->wait();
 ```
 
-## comparison proc_open , ProcOpen
+## comparison proc_open(original) , ProcOpen(this package).
 
 - process (no input)
 - process (with stdin,stderr,stdout )
