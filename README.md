@@ -319,6 +319,26 @@ fclose($fp); // finish php interactive shell
 $output= stream_get_contents($proc->getFd(1));
 
 ```
+## wait() is not always needed.
+read output will be Blocked by OS. `Proc#wait` is not always needed.
+```php
+<?php
+$proc = new ProcOpen(['cat','/etc/passwd']);
+$proc->start();
+// $proc automatically wait by OS blocking io. 
+// `$proc->wait();` is not necessary.
+echo stream_get_contents($proc->stdout);
+```
+ProcOpen has  shortcut by function
+```php
+<?php
+// short cut function.
+$proc->getOutput();
+// same to this.
+stream_get_contents($proc->stdout)
+```
+
+
 ## Linux pipe max.
 
 Linux pipe will be Stuck(blocked) if left unread.
