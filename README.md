@@ -51,8 +51,8 @@ $p->start();
 $p->wait();
 ```
 
-## comparison proc_open(original) , ProcOpen(this package).
-
+## comparison proc_open , ProcOpen.
+compare proc_open(original) , ProcOpen(this package) in using.
 - process (no input)
 - process (with stdin,stderr,stdout )
 - process (read output)
