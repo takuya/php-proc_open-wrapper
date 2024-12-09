@@ -117,10 +117,10 @@ php > echo 1;
 php > echo 2;
 2
 ```
-`proc_open` : Do as above in. 
+`proc_open` : Do as above. 
 ```php
 <?php
-$proc = proc_open(['php','-a'], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $io);
+$proc = proc_open(['php','-a'],[0 =>['pipe','r'],1 =>['pipe','w']],$io);
 foreach (range(0, 9) as $str) {
   echo fread($io[1],1024);
   fwrite($io[0],"echo {$str};\n");
