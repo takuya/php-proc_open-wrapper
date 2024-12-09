@@ -148,6 +148,7 @@ echo $proc->getOutput();
 # shell calling, Not Safe.
 $proc = proc_open('cat /etc/passwd | grep root',[1=>['pipe','w']],$io);
 echo stream_get_contents($io[1]);
+
 # pipe io , More Safe.
 $p1 = proc_open('cat /etc/passwd',[1=>['pipe','w']],$p1_io);
 $p2 = proc_open('cat /etc/passwd | grep root',[0=>$p1_io[1],1=>['pipe','w']],$p2_io);
@@ -161,6 +162,7 @@ $p = new ProcOpen(['bash']);
 $p->setInput('cat /etc/passwd | grep root');
 $p->start();
 echo $p->getOutput();
+
 ## pipe io , more safe and easy to maintenance.
 $p1 = new ProcOpen(['cat','/etc/passwd']);
 $p2 = new ProcOpen(['grep','root']);
