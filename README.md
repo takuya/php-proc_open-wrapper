@@ -150,8 +150,8 @@ $proc = proc_open('cat /etc/passwd | grep root',[1=>['pipe','w']],$io);
 echo stream_get_contents($io[1]);
 
 # pipe io , More Safe.
-$p1 = proc_open('cat /etc/passwd',[1=>['pipe','w']],$p1_io);
-$p2 = proc_open('cat /etc/passwd | grep root',[0=>$p1_io[1],1=>['pipe','w']],$p2_io);
+$p1 = proc_open(['cat','/etc/passwd'],[1=>['pipe','w']],$p1_io);
+$p2 = proc_open(['grep','root'],[0=>$p1_io[1],1=>['pipe','w']],$p2_io);
 echo stream_get_contents($p2_io[1]);
 ```
 `ProcOpen` wrapper, shell call and pipe io
