@@ -320,7 +320,7 @@ $output= stream_get_contents($proc->getFd(1));
 
 ```
 ## wait() is not always needed.
-read output will be Blocked by OS. `Proc#wait` is not always needed.
+read output will be Blocked by OS until process end. `Proc#wait` is not always needed.
 ```php
 <?php
 $proc = new ProcOpen(['cat','/etc/passwd']);
