@@ -2,16 +2,18 @@
   "name": "takuya/php-proc_open-wrapper",
   "description": "proc_open wrapper to exec command.",
   "type": "library",
-  "version": "0.4",
+  "version": "0.4.1",
   "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=8.0"
   },
   "autoload": {
     "psr-4": {
-      "Takuya\\": "src/",
       "Takuya\\ProcOpen\\": "src/ProcOpen"
-    }
+    },
+    "files": [
+      "src/helpers/cmd_exists.php"
+    ]
   },
   "authors": [
     {
