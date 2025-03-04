@@ -10,25 +10,6 @@ use Takuya\ProcOpen\Exceptions\FailedOpenProcessException;
 use Takuya\ProcOpen\Exceptions\ResourceIsMemoryException;
 
 class ProcOpenExceptionTest extends TestCase {
-  public function test_proc_open_invalid_cmd_as_string () {
-    $warningTriggered = false;
-    
-    // カスタムエラーハンドラを設定して警告をキャッチ
-    set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
-      if ($errno === E_USER_WARNING) {
-        $warningTriggered = true;
-      }
-      return true; // デフォルトのエラーハンドラをバイパス
-    });
-    
-    $p = new ProcOpen( '/usr/bin/php -v' );
-    $p->start();
-    $p->wait();
-    restore_error_handler();
-    //
-    $this->assertEquals('/usr/bin/php',$p->info->command);
-    $this->assertTrue($warningTriggered);
-  }
   
   public function test_proc_open_stdin_invalid_arguments () {
     $this->expectException( ResourceIsMemoryException::class );

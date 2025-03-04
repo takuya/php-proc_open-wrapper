@@ -1,5 +1,6 @@
 <?php
 
+namespace Takuya\ProcOpen;
 use Takuya\ProcOpen\ProcOpen;
 
 if( ! function_exists('cmd_exists') ) {
