@@ -51,4 +51,23 @@ class BufferedStreamTest extends TestCase {
     $this->assertEquals('MEMORY',stream_get_meta_data($proc->stderr())['stream_type']);
     
   }
+  public function test_process_buffering_with_wait_callback () {
+    $proc = new ProcOpen( ['php'], __DIR__, ['SHELL' => 'php'] );
+    $proc->setInput( <<<'EOS'
+      <?php
+      foreach(range(1,1000) as $idx){
+        echo 'aaaaaaaa'.PHP_EOL;
+        usleep(100);
+      }
+      EOS
+    );
+    $proc->enableBuffering();
+    $proc->start();
+    $count_called = 0;
+    $proc->wait( function() use ( $proc, &$count_called ) {
+      $count_called++;
+    } );
+    $this->assertGreaterThan(0,$count_called);
+    $this->assertEquals(1000,substr_count($proc->getOutput(),'aaaaaaaa'));
+  }
 }

@@ -120,12 +120,14 @@ class ProcOpen {
       stream_copy_to_stream($this->buff[self::STDIN],$this->fds[self::STDIN]);
       fclose($this->fds[self::STDIN]);
     }
-    if( !is_callable($callback) && $this->io_buffering_enabled){
-      $callback = $this->buff_stream();
-    }
-    while ( $this->info->running ) {
-      is_callable( $callback ) && call_user_func( $callback );
-      usleep( 1000 );
+    if( $this->io_buffering_enabled){
+      $wait_with_buffering = $this->buff_stream($callback,20*1000);
+      $wait_with_buffering();
+    }else{
+      while ( $this->info->running ) {
+        is_callable( $callback ) && call_user_func( $callback );
+        usleep( 1000 );
+      }
     }
   }
   
