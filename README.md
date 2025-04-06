@@ -104,6 +104,17 @@ file_put_contents('php://stderr',$proc->getErrout());
 echo $proc->getOutput();
 
 ```
+### simple ( passthru IO)
+```php
+<?php
+/// proc_open
+$proc_res = proc_open('/usr/bin/echo Hello World',[0=>['pipe','r'],1=>STDOUT,2=>STDERR],$io);
+/// ProcOpen
+$proc = new ProcOpen(['/usr/bin/echo','Hello World']);
+$proc->setStdout(STDOUT);
+$proc->setStderr(STDERR);
+$proc->run();
+```
 ### simple ( read output )
 Open php Interactive Shell (`php -a`) and write and read out
 ```shell
